@@ -21,16 +21,16 @@
             "type": "SecureString"
         },
         "subnetName": {
-            "type": "String",
-            "defaultValue": "Adv_Analytics_Subnet"
+            "type": "String"
+            
         },
         "vnetName": {
-            "type": "String",
-            "defaultValue": "Seagate-AA-vnet-01"
+            "type": "String"
+            
         }
     },
     "variables": {
-      "networkInterfaceName": "[concat(parameters('virtualmachinename'),'nic01'))]"
+      "networkInterfaceName": "[concat(parameters('virtualmachinename'),'nic01')]"
     },
     "resources": [
         {
@@ -80,7 +80,7 @@
                  
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
              
             ]
         },
@@ -98,7 +98,7 @@
                            
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                 
+                                 "id":"[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname')), '/subnets/',parameters('subnetname'))]"
                             
                             }
                         }
