@@ -98,7 +98,7 @@
                            
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                 "id": "/subscriptions/1c0abacc-76c7-43d5-8ea6-24f43a1e5885/resourceGroups/PeteTest01RG049341/providers/Microsoft.Network/virtualNetworks/DtlPeteTest01/subnets/DtlPeteTest01subnet"
+                                 
                             
                             }
                         }
