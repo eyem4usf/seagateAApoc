@@ -1,0 +1,130 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "String",
+            "defaultValue": "eastus2"
+        },
+        "virtualMachineName": {
+            "type": "String"
+        },
+        "virtualMachineSize": {
+            "type": "String",
+            "defaultValue": "Standard_D2_v2"
+        },
+        "adminUsername": {
+            "type": "String",
+            "defaultValue": "testadmin"
+        },
+        "networkInterfaceName": {
+            "type": "String"
+        },
+        "adminPassword": {
+            "type": "SecureString"
+        },
+        "subnetName": {
+            "type": "String",
+            "defaultValue": "DtlPeteTest01subnet"
+        },
+        "vnetName": {
+            "type": "String",
+            "defaultValue": "DtlPeteTest01"
+        }
+    },
+    "variables": {
+      
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachineName')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[parameters('location')]",
+            "plan": {
+                "name": "standard-data-science-vm",
+                "publisher": "microsoft-ads",
+                "product": "standard-data-science-vm"
+            },
+            "properties": {
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "provisionVmAgent": "true"
+                    }
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "microsoft-ads",
+                        "offer": "standard-data-science-vm",
+                        "sku": "standard-data-science-vm",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "networkprofile":{
+                    "networkInterfaces":[
+                        {
+                            "id": "[resourceID('Microsoft.Network/networkInterfaces', parameters('networkinterfacename'))]"
+                        }
+                       ]
+                }
+                 
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+             
+            ]
+        },
+          {
+            "comments": "Generalized from resource: '/subscriptions/1c0abacc-76c7-43d5-8ea6-24f43a1e5885/resourceGroups/DTLarmTESTrg/providers/Microsoft.Network/networkInterfaces/dtaarmtestvm543'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkinterfacename')]",
+            "apiVersion": "2016-03-30",
+            "location": "[parameters('location')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                           
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                 "id": "/subscriptions/1c0abacc-76c7-43d5-8ea6-24f43a1e5885/resourceGroups/PeteTest01RG049341/providers/Microsoft.Network/virtualNetworks/DtlPeteTest01/subnets/DtlPeteTest01subnet"
+                            
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": []
+          
+        }
+        
+        
+    
+        
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "String",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
+}
