@@ -15,25 +15,22 @@
         },
         "adminUsername": {
             "type": "String",
-            "defaultValue": "testadmin"
-        },
-        "networkInterfaceName": {
-            "type": "String"
+            "defaultValue": "seagateadmin"
         },
         "adminPassword": {
             "type": "SecureString"
         },
         "subnetName": {
             "type": "String",
-            "defaultValue": "DtlPeteTest01subnet"
+            "defaultValue": "Adv_Analytics_Subnet"
         },
         "vnetName": {
             "type": "String",
-            "defaultValue": "DtlPeteTest01"
+            "defaultValue": "Seagate-AA-vnet-01"
         }
     },
     "variables": {
-      
+      "networkInterfaceName": "[concat(parameters('virtualmachinename'),'nic01'))]"
     },
     "resources": [
         {
@@ -76,7 +73,7 @@
                 "networkprofile":{
                     "networkInterfaces":[
                         {
-                            "id": "[resourceID('Microsoft.Network/networkInterfaces', parameters('networkinterfacename'))]"
+                            "id": "[resourceID('Microsoft.Network/networkInterfaces', variables('networkinterfacename'))]"
                         }
                        ]
                 }
@@ -90,7 +87,7 @@
           {
             "comments": "Generalized from resource: '/subscriptions/1c0abacc-76c7-43d5-8ea6-24f43a1e5885/resourceGroups/DTLarmTESTrg/providers/Microsoft.Network/networkInterfaces/dtaarmtestvm543'.",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkinterfacename')]",
+            "name": "[variables('networkinterfacename')]",
             "apiVersion": "2016-03-30",
             "location": "[parameters('location')]",
             "properties": {
